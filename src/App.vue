@@ -13,7 +13,7 @@ export default {
     //const api ='https://vue-course-api.hexschool.io/api/lee/products';
 
     //使用環境變數取得
-    // const api =`${process.env.APIPATH}api/${process.env.CUSTOMPATH}/products`;
+    // const api =`${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/products`;
 
     // console.log(process.env.APIPATH,process.env.CUSTOMPATH);
     // this.$http.get(api).then((response) => {

@@ -48,7 +48,7 @@ export default {
     //加入signin事件
     signin() {
       //伺服器路徑
-      const api = `${process.env.APIPATH}admin/signin`;
+      const api = `${process.env.APIPATH}/admin/signin`;
       const vm = this;
       //使用post把用戶資料傳進來，vm.user>帳號跟密碼
       this.$http.post(api, vm.user).then(response => {

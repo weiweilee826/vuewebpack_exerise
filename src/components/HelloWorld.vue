@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     signout() {
-      const api = `${process.env.APIPATH}logout`;
+      const api = `${process.env.APIPATH}/logout`;
       const vm = this;
       console.log("$$$" + api);
       //使用post把用戶資料傳進來

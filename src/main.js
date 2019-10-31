@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  const api = `${process.env.APIPATH}api/user/check`;
+  const api = `${process.env.APIPATH}/api/user/check`;
   axios.post(api).then(response => {
     if (response.data.success) {
       next();
