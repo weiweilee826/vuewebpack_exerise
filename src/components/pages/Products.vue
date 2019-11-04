@@ -10,8 +10,8 @@
           <th>產品名稱</th>
           <th width="120">原價</th>
           <th width="120">售價</th>
-          <th width="100">是否啟用</th>
-          <th width="80">編輯</th>
+          <th width="120">是否啟用</th>
+          <th width="120">編輯</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +27,7 @@
           </td>
           <td>
             <button class="btn btn-outline-primary btn-sm" @click="openModal(false, item)">編輯</button>
+            <button class="btn btn-outline-danger btn-sm" @click="delModal(item)">刪除</button>
           </td>
         </tr>
       </tbody>
@@ -68,7 +69,14 @@
                     或 上傳圖片
                     <i class="fas fa-spinner fa-spin"></i>
                   </label>
-                  <input type="file" id="customFile" class="form-control" ref="files" />
+                  <!-- 欄位有變更就新增圖片 -->
+                  <input
+                    type="file"
+                    id="customFile"
+                    class="form-control"
+                    ref="files"
+                    @change="uploadFile"
+                  />
                 </div>
                 <img
                   img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
@@ -204,7 +212,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
+            <button type="button" class="btn btn-primary" @click="confirmDel">確認</button>
           </div>
         </div>
       </div>
@@ -272,6 +280,61 @@ export default {
           console.log("新增失敗");
         }
       });
+    },
+
+    delModal(item) {
+      this.tempProduct = item;
+      console.log(this.tempProduct);
+      $("#delProductModal").modal("show");
+    },
+
+    confirmDel() {
+      let vm = this;
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/product/${vm.tempProduct.id}`;
+
+      this.$http.delete(api).then(response => {
+        console.log(response.data);
+        if (response.data.success) {
+          $("#delProductModal").modal("hide");
+          vm.getProducts();
+          console.log("成功刪除");
+        } else {
+          $("#delProductModal").modal("hide");
+          vm.getProducts();
+          console.log("刪除失敗");
+        }
+      });
+    },
+
+    //上傳圖片
+    uploadFile() {
+      console.log(this);
+      //取得上傳檔案
+      const uploadedFile = this.$refs.files.files[0];
+      const vm = this;
+
+      //建立FormData物件
+      const formData = new FormData();
+      //追加新值到 FormData 物件已有的對應鍵上
+      formData.append("file-to-upload", uploadedFile);
+      const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
+
+      //送出 >路徑, 傳送內容, {改成FormData的格式}
+      this.$http
+        .post(url, formData, {
+          headers: {
+            //改變表單形式
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.success) {
+            // vm.tempProduct.imageUrl = response.data.imageUrl;
+            // console.log(vm.tempProduct);
+            vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+          }
+        });
     }
   },
 
