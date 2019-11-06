@@ -4,15 +4,22 @@ import Vue from 'vue';
 //把第三方套件往上面放
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+//需要連同css一起載入
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
 //自己撰寫
 import App from './App';
 import router from './router';
+import './bus';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 //加上withCredentials就能自動存入Cookie
 axios.defaults.withCredentials = true;
+
+//啟用Loading原件
+Vue.component('Loading', Loading);
 
 /* eslint-disable no-new */
 new Vue({
@@ -32,9 +39,9 @@ router.beforeEach((to, from, next) => {
   axios.post(api).then(response => {
     if (response.data.success) {
       next();
-    }else{
+    } else {
       next({
-        path:'/login',
+        path: '/login',
       })
     }
   });
