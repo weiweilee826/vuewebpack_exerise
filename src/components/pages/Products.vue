@@ -306,36 +306,34 @@ export default {
       });
     },
 
-    //上傳圖片
+    //上傳檔案
     uploadFile() {
       console.log(this);
       //取得上傳檔案
       const uploadedFile = this.$refs.files.files[0];
       const vm = this;
-
       //建立FormData物件
       const formData = new FormData();
+
       //追加新值到 FormData 物件已有的對應鍵上
       formData.append("file-to-upload", uploadedFile);
       const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/upload`;
-
+      
       //送出 >路徑, 傳送內容, {改成FormData的格式}
-      this.$http
-        .post(url, formData, {
-          headers: {
-            //改變表單形式
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.success) {
-            // vm.tempProduct.imageUrl = response.data.imageUrl;
-            // console.log(vm.tempProduct);
-            vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
-          }
-        });
-    }
+      this.$http.post(url, formData, {
+        headers: {
+          //改變表單形式
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(response => {
+        console.log(response.data);
+        if (response.data.success) {
+          // vm.tempProduct.imageUrl = response.data.imageUrl;
+          // console.log(vm.tempProduct);
+          vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+        }
+      });
+    },
   },
 
   //新增created觸發
