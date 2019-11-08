@@ -12,14 +12,16 @@ import 'bootstrap';
 import App from './App';
 import router from './router';
 import './bus';
+import currencyFilter from './filters/currency';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 //加上withCredentials就能自動存入Cookie
 axios.defaults.withCredentials = true;
 
-//啟用Loading原件
+//啟用原件
 Vue.component('Loading', Loading);
+Vue.filter('currency', currencyFilter);
 
 /* eslint-disable no-new */
 new Vue({

@@ -21,8 +21,8 @@
         <tr v-for="(item) in products" :key="item.id">
           <td>{{item.category}}</td>
           <td>{{item.title}}</td>
-          <td style="padding-right:5%">{{item.origin_price}}</td>
-          <td style="padding-right:2%">{{item.price}}</td>
+          <td class="text-right">{{item.origin_price | currency}}</td>
+          <td class="text-right">{{item.price | currency}}</td>
           <td>
             <!-- 產品啟用 is_enable == 1 -->
             <span v-if="item.is_enable" class="text-success">啟用</span>
@@ -36,10 +36,16 @@
       </tbody>
     </table>
 
+    <!-- nav切換為元件
     <nav aria-label="Page navigation example">
       <ul class="pagination">
-        <li class="page-item" :class="{'disable': !pagination.has_pre}">
-          <a class="page-link" href="#" aria-label="Previous">
+        <li class="page-item" :class="{'disabled': !pagination.has_pre }">
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Previous"
+            @click.prevent="getProducts(pagination.current_page - 1)"
+          >
             <span aria-hidden="true">&laquo;</span>
             <span class="sr-only">Previous</span>
           </a>
@@ -48,18 +54,23 @@
           class="page-item"
           v-for="page in pagination.total_pages"
           :key="page"
-          :class="{'active':pagination.current_page === page}"
+          :class="{'active': pagination.current_page === page}"
         >
-          <a class="page-link" href="#">{{page}}</a>
+          <a class="page-link" href="#" @click.prevent="getProducts(page)">{{ page }}</a>
         </li>
-        <li class="page-item" :class="{'disable': !pagination.has_next}">
-          <a class="page-link" href="#" aria-label="Next">
+        <li class="page-item" :class="{'disabled': !pagination.has_next }">
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Next"
+            @click.prevent="getProducts(pagination.current_page + 1)"
+          >
             <span aria-hidden="true">&raquo;</span>
             <span class="sr-only">Next</span>
           </a>
         </li>
       </ul>
-    </nav>
+    </nav>-->
 
     <div
       class="modal fade"
@@ -265,8 +276,9 @@ export default {
     };
   },
   methods: {
-    getProducts() {
-      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products`;
+    //預設值為第一頁
+    getProducts(page = 1) {
+      const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/admin/products?page=${page}`;
       const vm = this;
       console.log(process.env.APIPATH, process.env.CUSTOMPATH);
 
