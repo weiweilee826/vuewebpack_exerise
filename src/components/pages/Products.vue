@@ -71,6 +71,7 @@
         </li>
       </ul>
     </nav>-->
+    <Pagination :pages="pagination" @emitPages="getProducts"></Pagination>
 
     <div
       class="modal fade"
@@ -261,6 +262,7 @@
 
 <script>
 import $ from "jquery";
+import Pagination from "../Pagination";
 
 export default {
   data() {
@@ -275,6 +277,11 @@ export default {
       }
     };
   },
+
+  components: {
+    Pagination
+  },
+  
   methods: {
     //預設值為第一頁
     getProducts(page = 1) {

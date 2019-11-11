@@ -13,11 +13,13 @@ import App from './App';
 import router from './router';
 import './bus';
 import currencyFilter from './filters/currency';
+import dateFilter from './filters/date';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 //加上withCredentials就能自動存入Cookie
 axios.defaults.withCredentials = true;
+Vue.filter('date', dateFilter);
 
 //啟用原件
 Vue.component('Loading', Loading);

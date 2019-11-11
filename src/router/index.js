@@ -4,11 +4,15 @@ import Router from 'vue-router';
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
+import Coupons from '@/components/pages/Coupons';
+import Orders from '@/components/pages/Orders';
+import CustomerOrder from '@/components/pages/CustomerOrders';
 
 
 Vue.use(Router);
 
 export default new Router({
+  linkActiveClass: 'active',
   routes: [
     {
       //避免用戶導入不存在的頁面
@@ -36,7 +40,32 @@ export default new Router({
           path: 'products',
           name: 'Products',
           component: Products,
+        },
+        {
+          path: 'coupons',
+          name: 'Coupons',
+          component: Coupons,
           meta: { requiresAuth: true },
+        },
+        {
+          path: 'orders',
+          name: 'Orders',
+          component: Orders,
+          meta: { requiresAuth: true },
+        },
+      ],
+    },
+
+  
+    {
+      path: '/',
+      name: 'Dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: 'customer_order',
+          name: 'CustomerOrder',
+          component: CustomerOrder,
         },
       ],
     },
