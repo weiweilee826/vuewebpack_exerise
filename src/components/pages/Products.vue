@@ -281,7 +281,7 @@ export default {
   components: {
     Pagination
   },
-  
+
   methods: {
     //預設值為第一頁
     getProducts(page = 1) {
@@ -294,10 +294,11 @@ export default {
 
       this.$http.get(api).then(response => {
         console.log(response.data);
-        //getProducts完成後
-        vm.isLoading = false;
-        vm.products = response.data.products;
-        vm.pagination = response.data.pagination;
+        if (response.data.success) {
+          vm.isLoading = false;
+          vm.products = response.data.products;
+          vm.pagination = response.data.pagination;
+        }
       });
     },
 
@@ -394,7 +395,7 @@ export default {
             // console.log(vm.tempProduct);
             vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
           } else {
-            this.$bus.$emit("message:push", response.data.message, "danger");
+            this.$bus.$emit("messsage:push", response.data.message, "danger");
           }
         });
     }
